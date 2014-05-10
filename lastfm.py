@@ -4,7 +4,7 @@
 
 import requests
 
-DEBUG = True
+DEBUG = False
 
 
 
@@ -51,9 +51,24 @@ class LastFM:
 
     def artist_info(self, name=None, mbid=None, **kwargs):
         """Makes a request to the artist.getInfo API method using either a
-        text name or musicbrainz ID."""
+        text name or MusicBrainz ID."""
         
         params = {"method": "artist.getInfo"}
+        if mbid:
+            params["mbid"] = mbid
+        elif name:
+            params["artist"] = name
+        else:
+            raise ValueError("Must specify artist name or a MusicBrainz ID.")
+
+        params.update(**kwargs)
+        return self._request(params)
+
+    def similar_artist(self, name=None, mbid=None, **kwargs):
+        """Makes a request to the artist.getSimilar API method using either
+        a text name or a MusicBrainz ID."""
+
+        params = {"method": "artist.getSimilar"}
         if mbid:
             params["mbid"] = mbid
         elif name:
