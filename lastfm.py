@@ -43,15 +43,10 @@ class LastFM:
                 print "Error returned by last.fm: %s" % response_dict["message"]
         return response_dict
 
-    def search_artists(self, artist, limit=None, page=None):
+    def search_artists(self, artist, **kwargs):
         """Makes a request to the artist.search API method."""
         params = {"artist": artist, "method": "artist.search"}
-        if limit:
-            params["limit"] = limit
-        if page:
-            params["page"] = page
+        params.update(kwargs)
 
         return self._request(params)
-
-        
 
