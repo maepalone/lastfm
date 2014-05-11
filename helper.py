@@ -23,3 +23,9 @@ class LastFMHelper(lastfm.LastFM):
         raw_response = self.search_artists(artist)
         mbid = raw_response["results"]["artistmatches"]["artist"][0]["mbid"]
         return mbid
+
+    def artist_name(self, mbid):
+        """Returns the name associated with a MusicBrainz ID."""
+        raw_response = self.artist_info(mbid=mbid)
+        name = raw_response["artist"]["name"]
+        return name
